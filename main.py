@@ -22,13 +22,13 @@ def generate_pdf_report(individual_scores=None, relay_scores=None):
     story.append(Spacer(1, 0.2 * 100))
 
     if individual_scores:
-        story.append(Paragraph("--- Individual Race Results ---", styles['h2']))
+        story.append(Paragraph("--- Resultat Individuell Tävling ---", styles['h2']))
         for district, score in sorted(individual_scores.items(), key=lambda item: item[1]):
             story.append(Paragraph(f"{district}: {score} points", styles['Normal']))
         story.append(Spacer(1, 0.2 * 100))
 
     if relay_scores:
-        story.append(Paragraph("--- Relay Race Results ---", styles['h2']))
+        story.append(Paragraph("--- Resultat Stafett ---", styles['h2']))
         for district, score in sorted(relay_scores.items(), key=lambda item: item[1], reverse=True):
             story.append(Paragraph(f"{district}: {score} points", styles['Normal']))
         story.append(Spacer(1, 0.2 * 100))
