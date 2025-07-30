@@ -32,3 +32,6 @@ thumbs.db
 # My files
 doc/~*.*
 *.meosxml
+
+# Virtual environment
+venv/
