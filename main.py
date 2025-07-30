@@ -41,6 +41,8 @@ if __name__ == "__main__":
     parser.add_argument('--individual', action='store_true', help='Calculate individual race results.')
     parser.add_argument('--relay', action='store_true', help='Calculate relay race results.')
     parser.add_argument('--all', action='store_true', help='Calculate both individual and relay race results (default).')
+    parser.add_argument('--individual-file', type=str, default=INDIVIDUAL_RESULTS_FILE, help='Path to the individual race XML results file.')
+    parser.add_argument('--relay-file', type=str, default=RELAY_RESULTS_FILE, help='Path to the relay race XML results file.')
     parser.add_argument('--pdf', action='store_true', help='Generate a PDF report of the results.')
     args = parser.parse_args()
 
@@ -57,9 +59,9 @@ if __name__ == "__main__":
 
     if args.individual or args.all:
         # Individual race
-        club_to_district_ind = data_parser.parse_club_list(INDIVIDUAL_RESULTS_FILE)
-        classes = data_parser.parse_class_list(INDIVIDUAL_RESULTS_FILE)
-        individual_results = data_parser.parse_individual_results(INDIVIDUAL_RESULTS_FILE, classes)
+        club_to_district_ind = data_parser.parse_club_list(args.individual_file)
+        classes = data_parser.parse_class_list(args.individual_file)
+        individual_results = data_parser.parse_individual_results(args.individual_file, classes)
         individual_scores = individual_scorer.calculate_individual_scores(individual_results, club_to_district_ind, district_config)
 
         # Print results to console
@@ -69,8 +71,8 @@ if __name__ == "__main__":
 
     if args.relay or args.all:
         # Relay race
-        club_to_district_relay = data_parser.parse_club_list(RELAY_RESULTS_FILE)
-        relay_results = data_parser.parse_relay_results(RELAY_RESULTS_FILE)
+        club_to_district_relay = data_parser.parse_club_list(args.relay_file)
+        relay_results = data_parser.parse_relay_results(args.relay_file)
         relay_scores = relay_scorer.calculate_relay_scores(relay_results, club_to_district_relay, district_config)
 
         # Print results to console
