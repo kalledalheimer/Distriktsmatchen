@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     if args.individual or args.all:
         # Individual race
-        club_to_district_ind = data_parser.parse_club_list(args.individual_file)
+        club_to_district_ind = data_parser.parse_club_list_from_old_format(INDIVIDUAL_RESULTS_FILE)
         classes = data_parser.parse_class_list(args.individual_file)
         individual_results = data_parser.parse_individual_results(args.individual_file, classes)
         individual_scores = individual_scorer.calculate_individual_scores(individual_results, club_to_district_ind, district_config)
