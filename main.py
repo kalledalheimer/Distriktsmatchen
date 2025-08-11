@@ -9,7 +9,7 @@ import individual_scorer
 import relay_scorer
 
 INDIVIDUAL_RESULTS_FILE = 'doc/Distrmatch_2019-08-06_190806_1620_efter målgång.meosxml'
-RELAY_RESULTS_FILE = 'doc/Distrmatch_stafett_2019-08-07_190807_2100_justerad.meosxml'
+RELAY_RESULTS_FILE = 'doc/Stafett_resultat_Efter_tävling_050806_1109.xml'
 CONFIG_FILE = 'config.json'
 
 def generate_pdf_report(individual_scores=None, relay_scores=None):

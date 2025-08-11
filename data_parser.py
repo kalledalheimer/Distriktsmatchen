@@ -114,20 +114,47 @@ def parse_relay_results(file_path):
     """Parses the relay race XML file and returns a list of teams."""
     tree = ET.parse(file_path)
     root = tree.getroot()
+    ns = {'ns': 'http://www.orienteering.org/datastandard/3.0'}
     
     teams = []
     
-    for team_element in root.findall('.//Team'):
+    for team_result_element in root.findall('.//ns:TeamResult', ns):
         team = {}
-        team['name'] = team_element.find('Name').text
-        team['club_id'] = team_element.find('Club').text
-        team['status'] = team_element.find('Status').text
-        teams.append(team)
         
-    # Calculate placement
-    teams.sort(key=lambda t: (t['status'] != '1', t.get('finish_time', 99999)))
-    for i, team in enumerate(teams):
-        team['placement'] = i + 1
+        name_element = team_result_element.find('ns:Name', ns)
+        if name_element is not None:
+            team['name'] = name_element.text
+            
+        organisation_element = team_result_element.find('ns:Organisation', ns)
+        if organisation_element is not None:
+            club_id_element = organisation_element.find('ns:Id', ns)
+            if club_id_element is not None:
+                team['club_id'] = club_id_element.text
+
+        # Find the last team member to get the overall result
+        team_members = team_result_element.findall('ns:TeamMemberResult', ns)
+        if team_members:
+            last_member = team_members[-1]
+            result_element = last_member.find('ns:Result', ns)
+            if result_element:
+                overall_result_element = result_element.find('ns:OverallResult', ns)
+                if overall_result_element:
+                    status_element = overall_result_element.find('ns:Status', ns)
+                    if status_element is not None and status_element.text == 'OK':
+                        team['status'] = '1'
+                    else:
+                        team['status'] = '0'
+                        
+                    position_element = overall_result_element.find('ns:Position', ns)
+                    if position_element is not None and position_element.text is not None:
+                        team['placement'] = int(position_element.text)
+                    else:
+                        team['placement'] = 9999
+        
+        if 'placement' in team: # Only add teams that have a placement
+            teams.append(team)
+            
+    teams.sort(key=lambda t: t['placement'])
         
     return teams
 

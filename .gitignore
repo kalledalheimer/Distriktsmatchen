@@ -35,3 +35,7 @@ doc/~*.*
 
 # Virtual environment
 venv/
+Distriktsmatchen_Results_2025.pdf
+doc/Distriktsmatch_Resultat_e_tävling_250805_1540.xml
+doc/Stafett_resultat_Efter_tävling_050806_1109.xml
+__pycache__/data_parser.cpython-313.pyc
